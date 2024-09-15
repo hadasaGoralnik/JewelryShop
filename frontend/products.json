@@ -1,0 +1,83 @@
+[
+    {
+        "id": 1,
+        "name": "שרשרת אבן ספיר",
+        "price": 200,
+        "image": "image/8.jpg",
+        "type": "type1",
+        "title": "שרשרת בצבע זהב לבן עם אבן סגולה עגלגלה",
+        "quantity": 1
+    },
+    {
+        "id": 2,
+        "name": "עגיל עם אבן ספיר",
+        "price": 250,
+        "image": "image/2.jpg",
+        "type": "type3",
+        "title": "עגיל בצבע זהב לבן עם אבן סגולה עגלגלה",
+        "quantity": 1
+    },
+    {
+        "id": 3,
+        "name": "עגיל יהלום",
+        "price": 290,
+        "image": "image/9.jpg",
+        "type": "type3",
+        "title": "עגיל עגול עם אבן יהלום",
+        "quantity": 1
+    },
+    {
+        "id": 4,
+        "name": "צמיד טניס",
+        "price": 200,
+        "image": "image/10.jpg",
+        "type": "type2",
+        "title": "צמיד טניס יהלומים בצבע זהב לבן",
+        "quantity": 1
+    },
+    {
+        "id": 5,
+        "name": " שרשרת מגן דויד עם יהלום",
+        "price": 300,
+        "image": "image/4.jpg",
+        "type": "type5 type1",
+        "title": "שרשרת מגן דוד בצבע כסף עם יהלום קטן באמצע",
+        "quantity": 1
+    },
+    {
+        "id": 6,
+        "name": "שרשרת מגן דויד",
+        "price": 200,
+        "image": "image/7.jpg",
+        "type": "type5 type1",
+        "title": "שרשרת מגן דוד יפה וארוכה ",
+        "quantity": 1
+    },
+    {
+        "id": 7,
+        "name": "שרשרת מפת ארץ ישראל",
+        "price": 200,
+        "image": "image/5.jpg",
+        "type": "type5 type1",
+        "title": "שרשרת בצורת מפת ארץ ישראל",
+        "quantity": 1
+    },
+    {
+        "id": 8,
+        "name": "טבעת כתר",
+        "price": 200,
+        "image": "image/3.jpg",
+        "type": "type4",
+        "title": "טבעת עם נוכחות יפה בצורת כתר",
+        "quantity": 1
+    },
+    {
+        "id": 9,
+        "name": "טבעת יהלום",
+        "price": 2000,
+        "image": "image/12.jpg",
+        "type": "type4",
+        "title": "טבעת אירוסין יפיפיה עם יהלום",
+        "quantity": 1
+    }
+]

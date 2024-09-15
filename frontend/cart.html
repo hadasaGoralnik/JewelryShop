@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="StyleSheet1.css" rel="stylesheet" />
+    <script src="Script1.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <title>עגלת קניות</title>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container d-flex justify-content-start align-items-center">
+            <a class="navbar-brand" href="#">
+                <img src="image/il.png" alt="Logo" width="20"  class="d-inline-block align-text-top">
+            </a>  
+            <a class="navbar-brand" href="home.html">
+                <i class="bi bi-house my-button " ></i>
+            </a>
+            <span id="user-nav-item" style="display: none;"></span>
+           
+        </div>
+    </nav>
+
+    <div class="container container2">
+        <h1>עגלת קניות</h1>
+        <div id="cart"></div>
+        <div class="total" id="total"></div>
+        <button id="topay" onclick="openModal()" style="display:none; width: 100%;">לתשלום</button>
+        <button id="rend" onclick="renderCart()">למעבר לעגלה </button>
+    </div>
+
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h7>:מלא את השדות הבאים</h7>
+            <form>
+                <div class="form-group mt-3 mb-3">
+                    <input type="text" class="form-control" id="name" oninput="validateName()" placeholder="שם מלא">
+                    <span id="nameError" style="color: red; font-size: 12px;"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <input type="text" class="form-control" id="creditCard" oninput="validatecreditCard()" placeholder="מספר כרטיס אשראי">
+                    <span id="creditCardError" style="color: red; font-size: 12px;"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <input type="text" class="form-control" id="tokef" oninput="validatetokef()" placeholder="תוקף">
+                    <span id="tokefError" style="color: red; font-size: 12px;"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <input type="text" class="form-control" id="tokef2" oninput="validatetokef2()" placeholder="3 ספרות בגב הכרטיס">
+                    <span id="tokef2Error" style="color: red; font-size: 12px;"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <input type="text" class="form-control" id="idown" oninput="validateidown()" placeholder="תז של בעל הכרטיס">
+                    <span id="idownError" style="color: red; font-size: 12px;"></span>
+                </div>
+                <div class="form-group mb-3 text-right">
+                    <textarea class="form-control" id="comments" rows="3" placeholder=":הערות"></textarea>
+                </div>
+                <button type="button"  onclick="submitDetails()">אישור</button>
+               
+            </form>
+            
+            
+              
+
+
+
+
+            
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+        
+</body>
+
+</html>

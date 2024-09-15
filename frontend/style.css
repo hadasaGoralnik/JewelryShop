@@ -1,0 +1,26 @@
+
+/* .offcanvas.offcanvas-end{
+  width: 200px; 
+} */
+.mt-4 {
+  margin-top: 80px !important;
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+.my-button:hover {
+  background-color: lightgrey;
+}
+.nav-link.active {
+    text-decoration: underline;
+}
+@media (max-width: 576px) {
+  #productCard {
+      max-width: 15rem;
+      
+      
+  }
+  
+}
