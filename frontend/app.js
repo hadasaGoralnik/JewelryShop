@@ -73,6 +73,8 @@ $(document).ready(function () {
     }
 });
 
+
+
 //tooltip
 $(document).ready(function () {
     // Initialize tooltips
