@@ -9,6 +9,19 @@ const bodyParser = require('body-parser'); // Middleware to parse JSON request b
 const uri = "mongodb+srv://lilachshekter:5rX3jJ3e@cluster0.ln6sc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const client = new MongoClient(uri);
 
+////////////////////////////////////////////
+async function connectToMongoDB() {
+  try {
+      await client.connect();
+      console.log("Connected to MongoDB");
+      
+      // הוסיפי כאן פעולות על מסד הנתונים אם יש צורך
+
+  } catch (error) {
+      console.error("Error connecting to MongoDB:", error);
+  }
+}
+
 
 const app = express();
 const port = 3001; 
@@ -69,7 +82,10 @@ app.post('/deleteUser', (req, res) => {
   res.status(200).json({ message: 'המשתמש נמחק בהצלחה' });
 });
 
+connectToMongoDB();
+
 // הפעלת השרת על הפורט המוגדר
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
+
