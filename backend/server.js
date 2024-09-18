@@ -6,8 +6,16 @@ const path = require('path');
 const bodyParser = require('body-parser'); // Middleware to parse JSON request bodies
 
 //url for mongo & creating client for the DB
-const uri = "mongodb+srv://lilachshekter:5rX3jJ3e@cluster0.ln6sc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = "mongodb+srv://lilachshekter:<db_password>@cluster0.ln6sc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const client = new MongoClient(uri);
+// התחברות ל-MongoDB
+client.connect()
+  .then(() => {
+    console.log('Connected to MongoDB successfully!');
+  })
+  .catch(err => {
+    console.error('Failed to connect to MongoDB:', err);
+  });
 
 
 const app = express();
