@@ -50,28 +50,28 @@ $(document).ready(function () {
     });
 });
 
-//מבצע הרשמה לאתר בדף login
-$(document).ready(function () {
-    // Handle form submission
-    $("#loginForm").submit(function (event) {
-        // Prevent default form submission
-        event.preventDefault();
-        // Get username
-        var username = $("#username").val();
-        // Display username in navbar
-        $("#user-nav-item").text("שלום, " + username).show();
-        // Store username in local storage
-        localStorage.setItem("username", username);
-        // Redirect to home page
-        window.location.href = "home.html";
-    });
+// //מבצע הרשמה לאתר בדף login
+// $(document).ready(function () {
+//     // Handle form submission
+//     $("#loginForm").submit(function (event) {
+//         // Prevent default form submission
+//         event.preventDefault();
+//         // Get username
+//         var username = $("#username").val();
+//         // Display username in navbar
+//         $("#user-nav-item").text("שלום, " + username).show();
+//         // Store username in local storage
+//         localStorage.setItem("username", username);
+//         // Redirect to home page
+//         window.location.href = "home.html";
+//     });
 
-    // Check if user is logged in on home page
-    var username = localStorage.getItem("username");
-    if (username) {
-        $("#user-nav-item").text("שלום, " + username).show();
-    }
-});
+//     // Check if user is logged in on home page
+//     var username = localStorage.getItem("username");
+//     if (username) {
+//         $("#user-nav-item").text("שלום, " + username).show();
+//     }
+// });
 
 
 
@@ -85,106 +85,109 @@ $(document).ready(function () {
 });
 
 
-//הצגת השם של המשתמש ב nav
-$(document).ready(function () {
-    // Check if user is logged in on home page
-    var username = localStorage.getItem("username");
-    if (username) {
-        $("#user-nav-item").text("שלום, " + username).show();
-    }
-});
-// נוסיף את הפונקציונליות לכפתור היציאה
-document.addEventListener('DOMContentLoaded', function () {
-    // ברגע שהכפתור מופיע, נקשיב ללחיצה עליו
-    document.getElementById("logoutButton").addEventListener("click", function() {
-        // מחיקת כל הנתונים שנשמרו ב־local storage
-        localStorage.clear();
-        // יישוב את המשתמש לדף הבית
-        window.location.href = "home.html";
-    });
-});
-document.addEventListener('DOMContentLoaded', function () {
-    const navLinks = document.querySelectorAll('.nav-link');
+// //הצגת השם של המשתמש ב nav
+// $(document).ready(function () {
+//     // Check if user is logged in on home page
+//     var username = localStorage.getItem("username");
+//     if (username) {
+//         $("#user-nav-item").text("שלום, " + username).show();
+//     }
+// });
+// // נוסיף את הפונקציונליות לכפתור היציאה
+// document.addEventListener('DOMContentLoaded', function () {
+//     // ברגע שהכפתור מופיע, נקשיב ללחיצה עליו
+//     document.getElementById("logoutButton").addEventListener("click", function() {
+//         // מחיקת כל הנתונים שנשמרו ב־local storage
+//         localStorage.clear();
+//         // יישוב את המשתמש לדף הבית
+//         window.location.href = "home.html";
+//     });
+// });
+// document.addEventListener('DOMContentLoaded', function () {
+//     const navLinks = document.querySelectorAll('.nav-link');
 
-    navLinks.forEach(link => {
-        link.addEventListener('click', function () {
-            // הסרת ה-class "active" מכל הקישורים בתפריט
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-            });
+//     navLinks.forEach(link => {
+//         link.addEventListener('click', function () {
+//             // הסרת ה-class "active" מכל הקישורים בתפריט
+//             navLinks.forEach(link => {
+//                 link.classList.remove('active');
+//             });
 
-            // הוספת ה-class "active" לקישור שנבחר
-            this.classList.add('active');
-        });
-    });
-});
-document.addEventListener('DOMContentLoaded', () => {
-    // מאזין לטופס הכניסה
-    document.getElementById('loginForm').addEventListener('submit', async function(event) {
-        event.preventDefault();
+//             // הוספת ה-class "active" לקישור שנבחר
+//             this.classList.add('active');
+//         });
+//     });
+// });
+// document.addEventListener('DOMContentLoaded', () => {
+//     // מאזין לטופס הכניסה
+//     document.getElementById('loginForm').addEventListener('submit', async function(event) {
+//         event.preventDefault();
 
-        const loginData = {
-            name: document.getElementById('login-username').value, 
-            password: document.getElementById('login-password').value
-        };
+//         const loginData = {
+//             name: document.getElementById('login-username').value, 
+//             password: document.getElementById('login-password').value
+//         };
 
-        try {
-            const response = await fetch('http://localhost:3001/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(loginData)
-            });
+//         try {
+//             const response = await fetch('http://localhost:3001/api/login', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json'
+//                 },
+//                 body: JSON.stringify(loginData)
+//             });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('Server responded with an error:', errorData);
-                alert("Login failed: " + errorData.message);
-                return;
-            }
+//             if (!response.ok) {
+//                 const errorData = await response.json();
+//                 console.error('Server responded with an error:', errorData);
+//                 alert("Login failed: " + errorData.message);
+//                 return;
+//             }
 
-            const result = await response.json();
-            console.log(result);
-            alert("Logged in successfully!");
-        } catch (error) {
-            console.error('Error:', error);
-            alert("Error occurred during login.");
-        }
-    });
+//             const result = await response.json();
+//             console.log(result);
+//             alert("Logged in successfully!");
+//         } catch (error) {
+//             console.error('Error:', error);
+//             alert("Error occurred during login.");
+//         }
+//     });
 
-    // מאזין לטופס ההרשמה
-    document.getElementById('registerForm').addEventListener('submit', async function(event) {
-        event.preventDefault();
+//     // מאזין לטופס ההרשמה
+//     document.getElementById('registerForm').addEventListener('submit', async function(event) {
+//         event.preventDefault();
 
-        const userData = {
-            name: document.getElementById('register-username').value,
-            email: document.getElementById('register-email').value,
-            password: document.getElementById('register-password').value
-        };
+//         const userData = {
+//             name: document.getElementById('register-username').value,
+//             email: document.getElementById('register-email').value,
+//             password: document.getElementById('register-password').value
+//         };
 
-        try {
-            const response = await fetch('http://localhost:3001/api/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userData)
-            });
+//         try {
+//             const response = await fetch('http://localhost:3001/api/register', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json'
+//                 },
+//                 body: JSON.stringify(userData)
+//             });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('Server responded with an error:', errorData);
-                alert("Registration failed: " + errorData.message);
-                return;
-            }
+//             if (!response.ok) {
+//                 const errorData = await response.json();
+//                 console.error('Server responded with an error:', errorData);
+//                 alert("Registration failed: " + errorData.message);
+//                 return;
+//             }
 
-            const result = await response.json();
-            console.log(result);
-            alert("User registered successfully!");
-        } catch (error) {
-            console.error('Error:', error);
-            alert("Error occurred during registration.");
-        }
-    });
-});
+//             const result = await response.json();
+//             console.log(result);
+//             alert("User registered successfully!");
+//         } catch (error) {
+//             console.error('Error:', error);
+//             alert("Error occurred during registration.");
+//         }
+//     });
+// });
+
+
+

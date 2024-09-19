@@ -11,9 +11,7 @@ exports.register = async (req, res) => {
 
     const newUser = new User({ name, email, password });
     await newUser.save();
-    
-    // הדפס את פרטי המשתמש החדש
-    console.log('New user created:', newUser);
+
     
     res.status(201).json({ message: 'ההרשמה בוצע בהצלחה ' });
   } catch (error) {
@@ -54,3 +52,4 @@ exports.delete = async (req, res) => {
     res.status(500).json({ message: 'Error deleting user' });
   }
 };
+
