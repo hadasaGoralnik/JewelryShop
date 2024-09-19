@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error fetching data:', error);
         });
 });
+
 // סינון מוצרים לפי סוג בתפריט הניווט
 $(document).ready(function () {
     $('.nav-link').click(function () {

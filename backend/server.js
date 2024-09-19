@@ -4,9 +4,9 @@ const { MongoClient } = require('mongodb'); //using mongodb
 const path = require('path');
 const bodyParser = require('body-parser'); // Middleware to parse JSON request bodies
 
-//url for mongo & creating client for the DB
-const uri = "mongodb+srv://lilachshekter:<db_password>@cluster0.ln6sc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-const client = new MongoClient(uri);
+// //url for mongo & creating client for the DB
+// const uri = "mongodb+srv://lilachshekter:<db_password>@cluster0.ln6sc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+// const client = new MongoClient(uri);
 
 
 const app = express();
