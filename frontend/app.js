@@ -51,30 +51,6 @@ $(document).ready(function () {
     });
 });
 
-//מבצע הרשמה לאתר בדף login
-$(document).ready(function () {
-    // Handle form submission
-    $("#loginForm").submit(function (event) {
-        // Prevent default form submission
-        event.preventDefault();
-        // Get username
-        var username = $("#username").val();
-        // Display username in navbar
-        $("#user-nav-item").text("שלום, " + username).show();
-        // Store username in local storage
-        localStorage.setItem("username", username);
-        // Redirect to home page
-        window.location.href = "home.html";
-    });
-
-    // Check if user is logged in on home page
-    var username = localStorage.getItem("username");
-    if (username) {
-        $("#user-nav-item").text("שלום, " + username).show();
-    }
-});
-
-
 
 //tooltip
 $(document).ready(function () {
@@ -86,36 +62,4 @@ $(document).ready(function () {
 });
 
 
-//הצגת השם של המשתמש ב nav
-$(document).ready(function () {
-    // Check if user is logged in on home page
-    var username = localStorage.getItem("username");
-    if (username) {
-        $("#user-nav-item").text("שלום, " + username).show();
-    }
-});
-// נוסיף את הפונקציונליות לכפתור היציאה
-document.addEventListener('DOMContentLoaded', function () {
-    // ברגע שהכפתור מופיע, נקשיב ללחיצה עליו
-    document.getElementById("logoutButton").addEventListener("click", function() {
-        // מחיקת כל הנתונים שנשמרו ב־local storage
-        localStorage.clear();
-        // יישוב את המשתמש לדף הבית
-        window.location.href = "home.html";
-    });
-});
-document.addEventListener('DOMContentLoaded', function () {
-    const navLinks = document.querySelectorAll('.nav-link');
 
-    navLinks.forEach(link => {
-        link.addEventListener('click', function () {
-            // הסרת ה-class "active" מכל הקישורים בתפריט
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-            });
-
-            // הוספת ה-class "active" לקישור שנבחר
-            this.classList.add('active');
-        });
-    });
-});

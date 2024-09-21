@@ -1,74 +1,41 @@
 const express = require('express');
-const { MongoClient } = require('mongodb'); //using mongodb
-
+const mongoose = require('mongoose');
 const path = require('path');
 const bodyParser = require('body-parser'); // Middleware to parse JSON request bodies
+const userRoutes = require('./routes/userRoutes'); // Ensure this is correctly pointing to your userRoutes.js file
 
-// //url for mongo & creating client for the DB
-// const uri = "mongodb+srv://lilachshekter:<db_password>@cluster0.ln6sc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-// const client = new MongoClient(uri);
+const app = express(); // Define 'app' before using it
+const port = 3001;
 
-
-const app = express();
-const port = 3001; 
-
-// משתמשים זמניים (מאגר משתמשים מדומה)
-const users = {};
-
-// Middleware להגדרת תיקיית frontend כמקור לקבצים סטטיים ולניתוח בקשות JSON
+// Middleware for static files and JSON parsing
 app.use(express.static(path.join(__dirname, '../frontend')));
 app.use(bodyParser.json());
 
-// ניתוב לדף הבית
+// Connect to MongoDB
+async function connectToMongoDB() {
+  try {
+    await mongoose.connect('mongodb+srv://lilachshekter:5rX3jJ3e@cluster0.6ctfz.mongodb.net/shop');
+    console.log("Connected to MongoDB with mongoose");
+
+    // Add any additional operations on the database if needed
+
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error);
+  }
+}
+
+// Routes
+app.use('/api', userRoutes); // Define routes for API
+
+// Define the home route
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/home.html'));
 });
 
-// ניתוב להרשמת משתמש
-app.post('/register', (req, res) => {
-  const { username, email, password } = req.body;
-
-  // בדיקה אם המשתמש כבר קיים
-  if (users[username]) {
-    return res.status(400).json({ message: 'שם המשתמש כבר קיים' });
-  }
-
-  // הוספת המשתמש ל"מאגר" הזמני
-  users[username] = { email, password };
-  res.status(201).json({ message: 'המשתמש נרשם בהצלחה' });
-});
-
-// ניתוב לכניסת משתמש
-app.post('/login', (req, res) => {
-  const { username, password } = req.body;
-
-  // בדיקה אם המשתמש קיים ואם הסיסמה תואמת
-  if (!users[username] || users[username].password !== password) {
-    return res.status(400).json({ message: 'שם המשתמש או הסיסמה שגויים' });
-  }
-
-  res.status(200).json({ message: 'המשתמש נכנס בהצלחה', username });
-});
-
-// ניתוב ליציאת משתמש
-app.post('/logout', (req, res) => {
-  res.status(200).json({ message: 'המשתמש יצא בהצלחה' });
-});
-
-// ניתוב למחיקת משתמש
-app.post('/deleteUser', (req, res) => {
-  const { username } = req.body;
-
-  // מחיקת המשתמש אם הוא קיים
-  if (!users[username]) {
-    return res.status(400).json({ message: 'המשתמש לא קיים' });
-  }
-
-  delete users[username];
-  res.status(200).json({ message: 'המשתמש נמחק בהצלחה' });
-});
-
-// הפעלת השרת על הפורט המוגדר
+// Start the server
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
+
+// Connect to MongoDB
+connectToMongoDB();
