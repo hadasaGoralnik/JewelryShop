@@ -10,6 +10,7 @@
     <title>Home</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <a href="product.html?id=${product._id}">
 </head>
 
 <body>
@@ -63,14 +64,47 @@
 
         </div>
     </nav>
-    <div class="container mt-4">
+    <!-- <div class="container mt-4">
         <div class="row listProduct"></div>
     </div>
-    <!-- <div id="bthn" lang="he"></div> -->
+     -- <div id="bthn" lang="he"></div> --
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script> -->
+
+        <div class="container mt-4">
+            <div class="row listProduct"></div>
+        </div>
+        
+        <ul id="product-list"></ul>
+
+<script>
+    async function fetchProducts() {
+        try {
+            const response = await fetch('http://localhost:3000/api/products');
+            const products = await response.json();
+            const productList = document.getElementById('product-list');
+
+            products.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.innerHTML = `
+                    <h3>${product.name}</h3>
+                    <a href="product.html?id=${product._id}">
+                        <img src="${product.image}" alt="${product.name}" width="200">
+                    </a>
+                    <p>Price: $${product.price}</p>
+                    <p>${product.title}</p>
+                `;
+                productList.appendChild(productDiv);
+            });
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    }
+
+    fetchProducts();
+</script>
 
     <script src="app.js"></script>
     <script src="user.js"></script>
@@ -78,3 +112,7 @@
 </body>
 
 </html>
+
+
+   
+
