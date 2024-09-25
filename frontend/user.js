@@ -1,7 +1,7 @@
 // מחכים שה-DOM יתממש (יתממש) לפני שמבצעים פעולות עם האלמנטים בדף
 document.addEventListener('DOMContentLoaded', () => {
     
-    // מטפל בהגשת טופס ההתחברות
+    // מטפל בהגשת טופס  הכניסה 
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', async function(event) {
@@ -245,7 +245,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-//ההודעה של החטופים
+//tooltip
+$(document).ready(function () {
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+
+// ההודעה של החטופים
 // (function () {
 //     var script = document.createElement("script");
 //     script.type = "text/javascript";
