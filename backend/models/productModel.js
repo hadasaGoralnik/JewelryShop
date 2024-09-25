@@ -1,12 +1,12 @@
-
-// models/product.js
 const mongoose = require('mongoose');
 
 // סכמה לפרודוקטים
 const productSchema = new mongoose.Schema({
    name: { type: String, required: true },
    price: { type: Number, required: true },
-   description: String
+   image: String,
+   type: String,
+   title: String,
 });
 
 // יצירת מודל

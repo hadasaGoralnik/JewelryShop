@@ -7,7 +7,7 @@ const productController = require('../controllers/productController');
 router.get('/products', productController.getAllProducts);
 
 // שליפת מוצר בודד לפי ID
-router.get('/products/:id', productController.getProductById);
+// router.get('/products/:id', productController.getProductById);
 
 module.exports = router;
 
