@@ -5,7 +5,7 @@ const bodyParser = require('body-parser'); // Middleware to parse JSON request b
 const userRoutes = require('./routes/userRoutes'); // Ensure this is correctly pointing to your userRoutes.js file
 const cors = require('cors');
 const productRoutes = require('./routes/productRoutes');
-
+const cartRoutes = require('./routes/cartRoutes');
 const app = express(); // Define 'app' before using it
 const port = 3001;
 
@@ -30,6 +30,8 @@ async function connectToMongoDB() {
 // Routes
 app.use('/api', userRoutes); // Define routes for API
 app.use('/api', productRoutes);
+app.use('/api', cartRoutes);
+
 
 // Define the home route
 app.get('/', (req, res) => {

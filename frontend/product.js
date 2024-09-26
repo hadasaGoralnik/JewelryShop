@@ -38,9 +38,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         </select>
                         <label for="productColor">:גוון זהב</label>
                     </div>
-                    <button class="col-12 bg-golden my-button">
-                        <a href="./cart.html?id=${productId}&name=${encodeURIComponent(productName)}&price=${productPrice}&image=${productImage}&quantity=${1}" class="text-black">הוסף לסל</a>
-                    </button>
+                  <button class="col-12 bg-golden my-button" onclick="addToCart('${productId}', '${productName}', ${productPrice}, '${productImage}', 1)">
+    הוסף לסל
+</button>
+
                 </div>
             </div>
         </div>
@@ -49,3 +50,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
     
 });
+

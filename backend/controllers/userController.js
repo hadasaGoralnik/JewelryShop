@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const Cart = require('../models/cartModel');
 
 // User Registration
 exports.register = async (req, res) => {
@@ -41,15 +42,19 @@ exports.login = async (req, res) => {
 exports.delete = async (req, res) => {
   const { name } = req.body;
   try {
+    // מחיקת המשתמש
     const result = await User.deleteOne({ name });
 
     if (result.deletedCount === 0) {
       return res.status(400).json({ message: 'User does not exist' });
     }
 
-    res.status(200).json({ message: 'User deleted successfully' });
+    // מחיקת עגלת הקניות של המשתמש
+    await Cart.deleteOne({ userName: name });
+
+    res.status(200).json({ message: 'User and cart deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting user' });
+    console.error('Error deleting user and cart:', error);
+    res.status(500).json({ message: 'Error deleting user and cart' });
   }
 };
-
