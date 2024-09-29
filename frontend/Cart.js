@@ -1,4 +1,17 @@
 
+
+
+// קריאה לפונקציה בעת טעינת העמוד
+window.onload = function() {
+    updateCartCount();
+};
+
+
+// קריאה לפונקציה בעת טעינת העמוד
+window.onload = function() {
+    updateCartCount();
+};
+
 // פונקציה לחישוב סך הכל
 function calculateTotal(cartItems) {
     return cartItems.reduce((total, item) => {
@@ -191,6 +204,8 @@ function addToCart(productId, productName, productPrice, productImage, quantity)
                     icon: 'success',
                     title: 'המוצר נוסף בהצלחה לעגלה',
                     confirmButtonText: 'אישור'
+                }).then(() => {
+                    window.location.href = "home.html";
                 });
                 console.log('Added to cart:', data);
                 // עדכון עגלת הקניות ב-localStorage

@@ -1,6 +1,26 @@
 // מחכים שה-DOM יתממש (יתממש) לפני שמבצעים פעולות עם האלמנטים בדף
 document.addEventListener('DOMContentLoaded', () => {
-
+    function updateCartCount() {
+        // קבלת המוצרים מ-localStorage באמצעות המפתח הנכון "cart"
+        let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+        
+        // עדכון ה-span עם מספר המוצרים
+        const cartCountElement = document.getElementById('cart-count');
+        cartCountElement.textContent = cartItems.length;
+    
+        // אם אין מוצרים בעגלה, אפשר להסתיר את ה-span (לבחירתך)
+        if (cartItems.length === 0) {
+            cartCountElement.style.display = 'none';
+        } else {
+            cartCountElement.style.display = 'inline'; // הצגה אם יש מוצרים בעגלה
+        }
+    }
+    
+    // קריאה לפונקציה בעת טעינת העמוד
+    window.onload = function() {
+        updateCartCount();
+    };
+    
     // מטפל בהגשת טופס  הכניסה 
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
@@ -113,7 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (registerModal) registerModal.hide();
                 });
             } catch (error) {
-                // אם יש שגיאה במהלך הבקשה, מראים הודעת שגיאה
                 console.error('Error:', error);
                 Swal.fire({
                     icon: 'error',
@@ -130,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const userNavItem = document.getElementById('user-nav-item');
     const logoutButton = document.getElementById('logoutButton');
     const deleteUserButton = document.getElementById('deleteUserButton');
+    const loginButton = document.getElementById('loginButton');
 
     if (storedUser) {
         const user = JSON.parse(storedUser);

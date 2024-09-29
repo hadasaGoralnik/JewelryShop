@@ -24,3 +24,14 @@
   }
   
 }
+.cart-count {
+  color: rgb(0, 0, 0);                
+  padding: 4px 8px;            
+  font-size: 12px;             
+  position: absolute;          
+  top: 12px;                  
+  right: -14px;               
+  min-width: 20px;             
+  text-align: center;         
+  font-weight: bold;           
+}
