@@ -48,7 +48,48 @@ async function fetchCart(userName) {
     }
 }
 
-// פונקציה להצגת עגלה
+
+function changeQuantity(index, newQuantity) {
+    let cartItems = loadCartFromLocalStorage();  // טוען את עגלת הקניות מה-LocalStorage
+    const item = cartItems[index];
+    const user = JSON.parse(localStorage.getItem('user'));  // קבלת פרטי המשתמש מה-LocalStorage
+    const userName = user ? user.name : null;  // קבלת שם המשתמש
+
+    if (!userName) {
+        console.error('User name is not defined!');
+        return;
+    }
+
+    // עדכון הכמות בשרת
+    fetch('http://localhost:3001/api/updateCartQuantity', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            userName: userName,  // שם המשתמש
+            productId: item.productId,  // מזהה המוצר
+            quantity: newQuantity  // הכמות החדשה
+        }),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.message === 'העגלה עודכנה בהצלחה') {
+            // עדכון ב-LocalStorage לאחר שהשרת אישר את העדכון
+            cartItems[index].quantity = newQuantity;
+            saveCartToLocalStorage(cartItems);
+            renderCart();  // רענון התצוגה של העגלה
+        } else {
+            console.error('Error updating cart:', data.message);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
 async function renderCart() {
     const user = JSON.parse(localStorage.getItem('user'));
     const userName = user ? user.name : null;  // קבלת שם המשתמש מהלוקל סטורג'
@@ -64,7 +105,7 @@ async function renderCart() {
     }
 
     // ניהול ההצגה של העגלה
-    document.getElementById("rend").style.display = "none";
+    //document.getElementById("rend").style.display = "none";
     document.getElementById("topay").style.display = "inline";
     var cartDiv = document.getElementById('cart');
     var totalDiv = document.getElementById('total');
@@ -117,49 +158,6 @@ async function renderCart() {
         totalDiv.textContent = 'sum: ' + totalAmount + '$';
     }
 }
-
-function changeQuantity(index, newQuantity) {
-    let cartItems = loadCartFromLocalStorage();  // טוען את עגלת הקניות מה-LocalStorage
-    const item = cartItems[index];
-    const user = JSON.parse(localStorage.getItem('user'));  // קבלת פרטי המשתמש מה-LocalStorage
-    const userName = user ? user.name : null;  // קבלת שם המשתמש
-
-    if (!userName) {
-        console.error('User name is not defined!');
-        return;
-    }
-
-    // עדכון הכמות בשרת
-    fetch('http://localhost:3001/api/updateCartQuantity', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            userName: userName,  // שם המשתמש
-            productId: item.productId,  // מזהה המוצר
-            quantity: newQuantity  // הכמות החדשה
-        }),
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.message === 'העגלה עודכנה בהצלחה') {
-            // עדכון ב-LocalStorage לאחר שהשרת אישר את העדכון
-            cartItems[index].quantity = newQuantity;
-            saveCartToLocalStorage(cartItems);
-            renderCart();  // רענון התצוגה של העגלה
-        } else {
-            console.error('Error updating cart:', data.message);
-        }
-    })
-    .catch(error => console.error('Error:', error));
-}
-
 // פונקציה לשליחת בקשת POST לשרת להוספת פריט לעגלה
 function addToCart(productId, productName, productPrice, productImage, quantity) {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -185,12 +183,33 @@ function addToCart(productId, productName, productPrice, productImage, quantity)
     .then(data => {
         if (data.error) {
             console.error('Error adding to cart:', data.error);
+            alert("יש להתחבר לאתר עם שם משתמש בכדי לרכוש מוצרים");
         } else {
+            alert("המוצר נוסף בהצלחה לעגלה");
             console.log('Added to cart:', data);
+            // עדכון עגלת הקניות ב-localStorage
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];  // טוען את העגלה הקיימת או יוצר עגלה ריקה
+      const newItem = {
+        productId,
+        productName,
+        productPrice,
+        productImage,
+        quantity
+      };
+      // בדיקה אם המוצר כבר קיים בעגלה והוספת הכמות
+      const existingItem = cart.find(item => item.productId === productId);
+      if (existingItem) {
+        existingItem.quantity += quantity;  // עדכון הכמות אם המוצר כבר קיים
+      } else {
+        cart.push(newItem);  // הוספת המוצר החדש לעגלה
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));  // עדכון ה-localStorage עם העגלה המעודכנת
         }
     })
     .catch(error => {
         console.error('Error adding to cart:', error);
+        alert("שגיאה בהוספת המוצר לעגלה");
     });
 }
 
@@ -204,13 +223,10 @@ async function removeFromCart(index) {
         console.error('User name is not defined!');
         return;
     }
-
     // עדכון מחיקת הפריט בשרת
     fetch('http://localhost:3001/api/removeFromCart', {
         method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: {'Content-Type': 'application/json',},
         body: JSON.stringify({
             userName: userName,  // שם המשתמש
             productId: item.productId  // מזהה המוצר
@@ -223,16 +239,75 @@ async function removeFromCart(index) {
         return response.json();
     })
     .then(data => {
-        console.log('Server response:', data);  // לוג לתגובה מהשרת
-        if (data.message === 'הפריט הוסר בהצלחה') {
-            // עדכון ה-LocalStorage לאחר שהשרת אישר את המחיקה
-            cartItems.splice(index, 1);  // הסרת הפריט מהמערך
-            saveCartToLocalStorage(cartItems);  // שמירת העדכון ב-LocalStorage
-            renderCart();  // רענון התצוגה של העגלה
-        } else {
+        if (data.error) {
             console.error('Unexpected message from server:', data.message);
+            alert("שגיאה במחיקת המוצר");
+        } else {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            let cartItems = loadCartFromLocalStorage();  // טוען את עגלת הקניות מה-LocalStorage
+            const item1 = cartItems[index];
+            // סינון המוצר שצריך להימחק מהעגלה
+            cart = cart.filter(item => item.productId !== item1.productId);
+           console.log('index',index);
+            // עדכון ה-localStorage עם המידע החדש
+            localStorage.setItem('cart', JSON.stringify(cart));
+                       renderCart();  // רענון התצוגה של העגלה
+            alert("המוצר נמחק בהצלחה מהעגלה");
         }
     })
     .catch(error => console.error('Error:', error));
 }
 
+function openModal() {
+    document.getElementById("myModal").style.display = "block";
+}
+
+function closeModal() {
+    document.getElementById("myModal").style.display = "none";
+}
+function validateName() {
+    var name = document.getElementById("name").value;
+    var nameError = document.getElementById("nameError");
+    if (!isNaN(parseInt(name))) {
+        nameError.innerText = "שדה זה מקבל רק אותיות ";
+    } else {
+        nameError.innerText = "";
+    }
+}
+function validatecreditCard() {
+    var creditCard = document.getElementById("creditCard").value;
+    var creditCardError = document.getElementById("creditCardError");
+    if (isNaN(parseInt(creditCard))) {
+        creditCardError.innerText = "שדה זה מקבל רק מספרים ";
+    } else {
+        creditCardError.innerText = "";
+    }
+}
+function validatetokef() {
+    var tokef = document.getElementById("tokef").value;
+    var tokefError = document.getElementById("tokefError");
+    if (isNaN(parseInt(tokef))) {
+        tokefError.innerText = "שדה זה מקבל רק מספרים ";
+    } else {
+        tokefError.innerText = "";
+    }
+}
+function validatetokef2() {
+    var tokef2 = document.getElementById("tokef2").value;
+    var tokef2Error = document.getElementById("tokef2Error");
+    if (isNaN(parseInt(tokef2))) {
+        tokef2Error.innerText = "שדה זה מקבל רק מספרים ";
+    } else {
+        tokef2Error.innerText = "";
+    }
+}
+function validateidown() {
+    var idown = document.getElementById("idown").value;
+    var idownError = document.getElementById("idownError");
+    if (isNaN(parseInt(idown))) {
+        idownError.innerText = "שדה זה מקבל רק מספרים ";
+    } else {
+        idownError.innerText = "";
+    }
+}

@@ -38,10 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         </select>
                         <label for="productColor">:גוון זהב</label>
                     </div>
-                  <button class="col-12 bg-golden my-button" onclick="addToCart('${productId}', '${productName}', ${productPrice}, '${productImage}', 1)">
-    הוסף לסל
-</button>
-
+                  <button class="col-12 bg-golden my-button" onclick="addToCart('${productId}', '${productName}', ${productPrice}, '${productImage}', 1)">הוסף לסל</button>
                 </div>
             </div>
         </div>
