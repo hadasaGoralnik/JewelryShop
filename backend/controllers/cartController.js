@@ -49,7 +49,7 @@ async function addToCart(req, res) {
 
         res.status(200).json({ message: 'המוצר נוסף לעגלה', cart });
     } catch (error) {
-        console.error('Error adding item to cart:', error);
+        // console.error('Error adding item to cart:', error);
         res.status(500).json({ error: 'Error adding item to cart' });
     }
 }

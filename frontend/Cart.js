@@ -1,5 +1,4 @@
 
-
 // פונקציה לחישוב סך הכל
 function calculateTotal(cartItems) {
     return cartItems.reduce((total, item) => {
@@ -182,7 +181,6 @@ function addToCart(productId, productName, productPrice, productImage, quantity)
     .then(response => response.json())
     .then(data => {
         if (data.error) {
-            console.error('Error adding to cart:', data.error);
             alert("יש להתחבר לאתר עם שם משתמש בכדי לרכוש מוצרים");
         } else {
             alert("המוצר נוסף בהצלחה לעגלה");
@@ -309,5 +307,25 @@ function validateidown() {
         idownError.innerText = "שדה זה מקבל רק מספרים ";
     } else {
         idownError.innerText = "";
+    }
+}
+function submitDetails() {
+    var name = document.getElementById("name").value;
+    var creditCard = document.getElementById("creditCard").value;
+    var tokef = document.getElementById("tokef").value;
+    var tokef2 = document.getElementById("tokef2").value;
+    var idown = document.getElementById("idown").value;
+
+    if (name !== "" && creditCard !== "" && tokef !== "" && tokef2 !== "" && idown !== "") {
+        alert(" התשלום בוצע בהצלחה ");
+        closeModal();
+        document.getElementById("name").value = "";
+        document.getElementById("creditCard").value = "";
+        document.getElementById("tokef").value = "";
+        document.getElementById("tokef2").value = "";
+        document.getElementById("idown").value = "";
+
+    } else {
+        alert("pleas full all the details.");
     }
 }
