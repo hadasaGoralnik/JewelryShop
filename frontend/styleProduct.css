@@ -1,37 +1,40 @@
+.mt-4 {
+  margin-top: 60px !important;
+}
 
-  .mt-4 {
-    margin-top: 60px !important;
+.my-button:hover {
+  background-color: lightgrey;
+
+}
+
+.my-button {
+  border: none;
+}
+
+
+@media (max-width: 576px) {
+  #productCard {
+    max-width: 15rem;
+
+
   }
-  
-  .my-button:hover {
-    background-color: lightgrey;
-   
-  }
-  .my-button{
-    border: none;
-  }
-  
- 
-  @media (max-width: 576px) {
-    #productCard {
-        max-width: 15rem;
-        
-        
-    }
 }
 
 @media (max-width: 576px) {
-    .card {
-        margin-top: 4px !important;    }
+  .card {
+    margin-top: 4px !important;
+  }
 }
-.card-body{
-    margin-top: 10px !important;
+
+.card-body {
+  margin-top: 10px !important;
 
 }
+
 @media (max-width: 576px) {
-    .card-body {
-        margin-top: 0px !important;
-        
-        
-    }
+  .card-body {
+    margin-top: 0px !important;
+
+
+  }
 }

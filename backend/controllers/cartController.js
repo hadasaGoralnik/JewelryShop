@@ -111,31 +111,31 @@ const removeFromCart = async (req, res) => {
     console.log('Received request to remove from cart:', req.body); // הוספת לוג
     // שליפת נתוני המשתמש והמוצר מגוף הבקשה
     const { userName, productId } = req.body;
-  
+
     try {
-      // חיפוש עגלת הקניות של המשתמש
-      let cart = await Cart.findOne({ userName });
-  
-      // אם עגלת הקניות נמצאה, נמשיך לתהליך ההסרה
-      if (cart) {
-        // סינון כל הפריטים שלא תואמים ל-productId של המוצר המוסר
-        cart.items = cart.items.filter(item => item.productId != productId);
-  
-        // שמירת עגלת הקניות המעודכנת לאחר הסרת הפריט
-        await cart.save();
-  
-        // שליחת תשובה ללקוח שהפריט הוסר בהצלחה
-        res.status(200).json({ message: 'הפריט הוסר בהצלחה ', cart });
-      } else {
-        // אם לא נמצאה עגלה, החזרת הודעת שגיאה מתאימה
-        res.status(404).json({ message: 'העגלה לא נמצאה' });
-      }
+        // חיפוש עגלת הקניות של המשתמש
+        let cart = await Cart.findOne({ userName });
+
+        // אם עגלת הקניות נמצאה, נמשיך לתהליך ההסרה
+        if (cart) {
+            // סינון כל הפריטים שלא תואמים ל-productId של המוצר המוסר
+            cart.items = cart.items.filter(item => item.productId != productId);
+
+            // שמירת עגלת הקניות המעודכנת לאחר הסרת הפריט
+            await cart.save();
+
+            // שליחת תשובה ללקוח שהפריט הוסר בהצלחה
+            res.status(200).json({ message: 'הפריט הוסר בהצלחה ', cart });
+        } else {
+            // אם לא נמצאה עגלה, החזרת הודעת שגיאה מתאימה
+            res.status(404).json({ message: 'העגלה לא נמצאה' });
+        }
     } catch (error) {
-      // טיפול בשגיאות והחזרת הודעת שגיאה אם התהליך נכשל
-      res.status(500).json({ message: 'שגיאה בהסרת המוצר מהעגלה', error });
+        // טיפול בשגיאות והחזרת הודעת שגיאה אם התהליך נכשל
+        res.status(500).json({ message: 'שגיאה בהסרת המוצר מהעגלה', error });
     }
-  };
-  
+};
+
 module.exports = {
-    addToCart,getCart,updateCartQuantity,removeFromCart,
+    addToCart, getCart, updateCartQuantity, removeFromCart,
 };

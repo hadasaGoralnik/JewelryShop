@@ -20,7 +20,6 @@ function loadCartFromLocalStorage() {
 // פונקציה לשליפת העגלה מהשרת
 async function fetchCart(userName) {
     if (!userName) {
-        console.error('User name is not defined!');
         return [];
     }
 
@@ -55,7 +54,7 @@ function changeQuantity(index, newQuantity) {
     const userName = user ? user.name : null;  // קבלת שם המשתמש
 
     if (!userName) {
-        console.error('User name is not defined!');
+        // console.error('User name is not defined!');
         return;
     }
 
@@ -71,23 +70,23 @@ function changeQuantity(index, newQuantity) {
             quantity: newQuantity  // הכמות החדשה
         }),
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.message === 'העגלה עודכנה בהצלחה') {
-            // עדכון ב-LocalStorage לאחר שהשרת אישר את העדכון
-            cartItems[index].quantity = newQuantity;
-            saveCartToLocalStorage(cartItems);
-            renderCart();  // רענון התצוגה של העגלה
-        } else {
-            console.error('Error updating cart:', data.message);
-        }
-    })
-    .catch(error => console.error('Error:', error));
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.message === 'העגלה עודכנה בהצלחה') {
+                // עדכון ב-LocalStorage לאחר שהשרת אישר את העדכון
+                cartItems[index].quantity = newQuantity;
+                saveCartToLocalStorage(cartItems);
+                renderCart();  // רענון התצוגה של העגלה
+            } else {
+                console.error('Error updating cart:', data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
 }
 async function renderCart() {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -178,37 +177,51 @@ function addToCart(productId, productName, productPrice, productImage, quantity)
             quantity,       // הכמות
         }),
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.error) {
-            alert("יש להתחבר לאתר עם שם משתמש בכדי לרכוש מוצרים");
-        } else {
-            alert("המוצר נוסף בהצלחה לעגלה");
-            console.log('Added to cart:', data);
-            // עדכון עגלת הקניות ב-localStorage
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];  // טוען את העגלה הקיימת או יוצר עגלה ריקה
-      const newItem = {
-        productId,
-        productName,
-        productPrice,
-        productImage,
-        quantity
-      };
-      // בדיקה אם המוצר כבר קיים בעגלה והוספת הכמות
-      const existingItem = cart.find(item => item.productId === productId);
-      if (existingItem) {
-        existingItem.quantity += quantity;  // עדכון הכמות אם המוצר כבר קיים
-      } else {
-        cart.push(newItem);  // הוספת המוצר החדש לעגלה
-      }
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'שגיאה',
+                    text: 'יש להתחבר לאתר עם שם משתמש בכדי לרכוש מוצרים',
+                    confirmButtonText: 'אישור'
+                });
+            } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'המוצר נוסף בהצלחה לעגלה',
+                    confirmButtonText: 'אישור'
+                });
+                console.log('Added to cart:', data);
+                // עדכון עגלת הקניות ב-localStorage
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];  // טוען את העגלה הקיימת או יוצר עגלה ריקה
+                const newItem = {
+                    productId,
+                    productName,
+                    productPrice,
+                    productImage,
+                    quantity
+                };
+                // בדיקה אם המוצר כבר קיים בעגלה והוספת הכמות
+                const existingItem = cart.find(item => item.productId === productId);
+                if (existingItem) {
+                    existingItem.quantity += quantity;  // עדכון הכמות אם המוצר כבר קיים
+                } else {
+                    cart.push(newItem);  // הוספת המוצר החדש לעגלה
+                }
 
-      localStorage.setItem('cart', JSON.stringify(cart));  // עדכון ה-localStorage עם העגלה המעודכנת
-        }
-    })
-    .catch(error => {
-        console.error('Error adding to cart:', error);
-        alert("שגיאה בהוספת המוצר לעגלה");
-    });
+                localStorage.setItem('cart', JSON.stringify(cart));  // עדכון ה-localStorage עם העגלה המעודכנת
+            }
+        })
+        .catch(error => {
+            // console.error('Error adding to cart:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'שגיאה',
+                text: 'שגיאה בהוספת המוצר לעגלה',
+                confirmButtonText: 'אישור'
+            });
+        });
 }
 
 async function removeFromCart(index) {
@@ -218,43 +231,52 @@ async function removeFromCart(index) {
     const userName = user ? user.name : null;  // קבלת שם המשתמש
 
     if (!userName) {
-        console.error('User name is not defined!');
+        // console.error('User name is not defined!');
         return;
     }
     // עדכון מחיקת הפריט בשרת
     fetch('http://localhost:3001/api/removeFromCart', {
         method: 'DELETE',
-        headers: {'Content-Type': 'application/json',},
+        headers: { 'Content-Type': 'application/json', },
         body: JSON.stringify({
             userName: userName,  // שם המשתמש
             productId: item.productId  // מזהה המוצר
         }),
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.error) {
-            console.error('Unexpected message from server:', data.message);
-            alert("שגיאה במחיקת המוצר");
-        } else {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                console.error('Unexpected message from server:', data.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'שגיאה',
+                    text: 'שגיאה במחיקת המוצר',
+                    confirmButtonText: 'אישור'
+                });
+            } else {
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-            let cartItems = loadCartFromLocalStorage();  // טוען את עגלת הקניות מה-LocalStorage
-            const item1 = cartItems[index];
-            // סינון המוצר שצריך להימחק מהעגלה
-            cart = cart.filter(item => item.productId !== item1.productId);
-           console.log('index',index);
-            // עדכון ה-localStorage עם המידע החדש
-            localStorage.setItem('cart', JSON.stringify(cart));
-                       renderCart();  // רענון התצוגה של העגלה
-            alert("המוצר נמחק בהצלחה מהעגלה");
-        }
-    })
-    .catch(error => console.error('Error:', error));
+                let cartItems = loadCartFromLocalStorage();  // טוען את עגלת הקניות מה-LocalStorage
+                const item1 = cartItems[index];
+                // סינון המוצר שצריך להימחק מהעגלה
+                cart = cart.filter(item => item.productId !== item1.productId);
+                console.log('index', index);
+                // עדכון ה-localStorage עם המידע החדש
+                localStorage.setItem('cart', JSON.stringify(cart));
+                renderCart();  // רענון התצוגה של העגלה
+                Swal.fire({
+                    icon: 'success',
+                    title: 'המוצר נמחק בהצלחה מהעגלה',
+                    confirmButtonText: 'אישור'
+                });
+            }
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 function openModal() {
@@ -317,7 +339,11 @@ function submitDetails() {
     var idown = document.getElementById("idown").value;
 
     if (name !== "" && creditCard !== "" && tokef !== "" && tokef2 !== "" && idown !== "") {
-        alert(" התשלום בוצע בהצלחה ");
+        Swal.fire({
+            icon: 'success',
+            title: 'התשלום בוצע בהצלחה',
+            confirmButtonText: 'אישור'
+        });
         closeModal();
         document.getElementById("name").value = "";
         document.getElementById("creditCard").value = "";
@@ -326,6 +352,11 @@ function submitDetails() {
         document.getElementById("idown").value = "";
 
     } else {
-        alert("pleas full all the details.");
+        Swal.fire({
+            icon: 'error',
+            title: 'שגיאה',
+            text: 'בבקשה תמלא את כל השדות',
+            confirmButtonText: 'אישור'
+        });
     }
 }

@@ -1,15 +1,15 @@
 // מחכים שה-DOM יתממש (יתממש) לפני שמבצעים פעולות עם האלמנטים בדף
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     // מטפל בהגשת טופס  הכניסה 
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
-        loginForm.addEventListener('submit', async function(event) {
+        loginForm.addEventListener('submit', async function (event) {
             event.preventDefault(); // מונע מהטופס להגיש מחדש את הדף
 
             // אוספים את נתוני המשתמש מהשדות
             const loginData = {
-                name: document.getElementById('login-username').value, 
+                name: document.getElementById('login-username').value,
                 password: document.getElementById('login-password').value
             };
 
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // מטפל בהגשת טופס ההרשמה
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
-        registerForm.addEventListener('submit', async function(event) {
+        registerForm.addEventListener('submit', async function (event) {
             event.preventDefault(); // מונע מהטופס להגיש מחדש את הדף
 
             // אוספים את נתוני המשתמש מהשדות
@@ -266,10 +266,17 @@ $(document).ready(function () {
     script.type = "text/javascript";
     script.src = "https://bringthemhomenow.net/1.1.0/hostages-ticker.js";
     script.setAttribute(
-      "integrity",
-      "sha384-DHuakkmS4DXvIW79Ttuqjvl95NepBRwfVGx6bmqBJVVwqsosq8hROrydHItKdsne"
+        "integrity",
+        "sha384-DHuakkmS4DXvIW79Ttuqjvl95NepBRwfVGx6bmqBJVVwqsosq8hROrydHItKdsne"
     );
     script.setAttribute("crossorigin", "anonymous");
     document.getElementsByTagName("head")[0].appendChild(script);
-  })();
+})();
 
+// הפעלת כל ה-tooltip בדף
+document.addEventListener('DOMContentLoaded', function () {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});

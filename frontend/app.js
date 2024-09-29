@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const listProductHTML = document.querySelector('.listProduct');
 
-    fetch('http://localhost:3001/api/products')  
+    fetch('http://localhost:3001/api/products')
         .then(response => response.json())
         .then(data => {
             data.forEach(product => {

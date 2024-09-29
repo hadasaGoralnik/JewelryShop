@@ -13,7 +13,7 @@ exports.register = async (req, res) => {
     const newUser = new User({ name, email, password });
     await newUser.save();
 
-    
+
     res.status(201).json({ message: 'ההרשמה בוצע בהצלחה ' });
   } catch (error) {
     console.error('Registration error:', error);

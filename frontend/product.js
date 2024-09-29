@@ -45,6 +45,6 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
     `;
 
-    
+
 });
 

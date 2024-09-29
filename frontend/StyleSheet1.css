@@ -8,7 +8,7 @@
 .container2 {
     max-width: 800px;
     margin-top: 82px;
-    margin: 10% auto; 
+    margin: 10% auto;
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
@@ -65,9 +65,10 @@ button {
     border-radius: 4px;
     cursor: pointer;
 }
+
 .my-button:hover {
     background-color: lightgrey;
-  }
+}
 
 button:hover {
     background-color: lightgrey;
@@ -120,6 +121,7 @@ button:hover {
     padding: 10px;
     width: calc(100% - 20px);
 }
-.form-control{
+
+.form-control {
     text-align: right;
 }
