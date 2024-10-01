@@ -136,6 +136,35 @@ const removeFromCart = async (req, res) => {
     }
 };
 
+const clearCart = async (req, res) => {
+    const { userName } = req.body;  // קבלת שם המשתמש מה-body
+
+    try {
+        // חיפוש עגלת הקניות של המשתמש
+        let cart = await Cart.findOne({ userName });
+
+        if (cart) {
+            // איפוס עגלת הקניות (מחיקת כל הפריטים)
+            cart.items = [];
+
+            // שמירת העגלה הריקה
+            await cart.save();
+
+            // שליחת תשובה ללקוח שהעגלה נמחקה בהצלחה
+            res.status(200).json({ message: 'העגלה נמחקה בהצלחה', cart });
+        } else {
+            // אם לא נמצאה עגלה, החזרת הודעת שגיאה מתאימה
+            res.status(404).json({ message: 'העגלה לא נמצאה' });
+        }
+    } catch (error) {
+        // טיפול בשגיאות והחזרת הודעת שגיאה אם התהליך נכשל
+        res.status(500).json({ message: 'שגיאה במחיקת העגלה', error });
+    }
+};
 module.exports = {
-    addToCart, getCart, updateCartQuantity, removeFromCart,
+    addToCart,
+    getCart,
+    updateCartQuantity,
+    removeFromCart,
+    clearCart
 };

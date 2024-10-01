@@ -117,7 +117,7 @@ async function renderCart() {
 
     // ניהול ההצגה של העגלה
     //document.getElementById("rend").style.display = "none";
-    document.getElementById("topay").style.display = "inline";
+    // document.getElementById("topay").style.display = "inline";
     var cartDiv = document.getElementById('cart');
     var totalDiv = document.getElementById('total');
     cartDiv.innerHTML = '';
@@ -126,6 +126,7 @@ async function renderCart() {
     if (cartItems.length === 0) {
         cartDiv.innerHTML = 'אין מוצרים להצגה';
     } else {
+        document.getElementById("topay").style.display = "inline";
         cartItems.forEach(function (item, index) {
             var itemDiv = document.createElement('div');
             itemDiv.classList.add('item');
@@ -374,4 +375,50 @@ function submitDetails() {
             confirmButtonText: 'אישור'
         });
     }
+}
+
+async function clearCart() {
+    const user = JSON.parse(localStorage.getItem('user'));  // קבלת פרטי המשתמש מה-LocalStorage
+    const userName = user ? user.name : null;  // קבלת שם המשתמש
+
+    if (!userName) {
+        console.error('User name is not defined!');
+        return;
+    }
+
+    // שליחת בקשת מחיקה לשרת
+    fetch('http://localhost:3001/api/clearCart', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userName }),  // שם המשתמש
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.message === 'העגלה נמחקה בהצלחה') {
+            // מחיקת העגלה מ-localStorage
+            localStorage.removeItem('cart');
+            renderCart();  // רענון התצוגה של העגלה
+            Swal.fire({
+                icon: 'success',
+                title: 'התשלום בוצע בהצלחה!!!',
+                confirmButtonText: 'אישור'
+            }).then(() => {
+                window.location.href = "home.html";
+            });
+        } else {
+            console.error('Error clearing cart:', data.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'שגיאה',
+                text: 'שגיאה במחיקת העגלה',
+                confirmButtonText: 'אישור'
+            });
+        }
+    })
+    .catch(error => console.error('Error:', error));
 }
